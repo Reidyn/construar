@@ -9,6 +9,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -20,15 +24,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import com.reidyn.innovandoapps.construccion.Services.UpImageService;
+
 /*******************************************************
  * @author windows 8.1                                 *
  * Activity para la captura de Imagenes                *
@@ -47,6 +55,8 @@ public class TakeImagenActivity extends FragmentActivity {
 	private Uri mCapturedImageURI = null;
 	public String path;
 	private SharedPreferences prefs;
+	private EditText edtRemision;
+	private EditText edtCantidad;
 	private Bundle bundle;
 	private int tipo=0;
 	//Constantes
@@ -61,13 +71,17 @@ public class TakeImagenActivity extends FragmentActivity {
 		setContentView(R.layout.activity_take_imagen);
         
         prefs=getSharedPreferences("construar",MODE_PRIVATE);
-        bundle=getIntent().getExtras();
+        bundle=getIntent().getExtras();        
         imgbtnCapturar=(ImageButton)findViewById(R.id.imgbtnCapturar);
         imgbtnFolder=(ImageButton)findViewById(R.id.imgbtnFolder);
         layoutPreview=(LinearLayout)findViewById(R.id.layoutPreview);
+        edtRemision=(EditText)findViewById(R.id.edtRemision);
+        edtCantidad=(EditText)findViewById(R.id.edtCantidad);
+        
         imgPreview=(ImageView)findViewById(R.id.imgPreview);
         btnEnviar=(Button)findViewById(R.id.btnEnviar);
         btnVolver=(Button)findViewById(R.id.btnVolver);
+        edtCantidad.setText(bundle.getString("cantidad"));
         asignarEventos();
 	}
 	
@@ -113,16 +127,20 @@ public class TakeImagenActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				if(swtake){
-					/*Bundle parametros=new Bundle();
-					parametros.putString("nick", bundle.getString("nick"));
-					parametros.putString("oper", bundle.getString("oper"));
-					parametros.putString("ced", bundle.getString("ced"));
-					parametros.putString("photopath", reducirImagen(prefs.getString("photopath", "")));
-					parametros.putInt("tipo", tipo);
-					Log.i("Parametros",parametros.toString());
-					//startService(new Intent(TakeImagenActivity.this,UpImageService.class).putExtras(parametros));
-					layoutPreview.setVisibility(View.GONE);
-					finish();*/
+					if(edtRemision.getText().toString().equals("")){
+						new DialogoRemision().show(getSupportFragmentManager(), "");
+					}else{
+						Bundle parametros=new Bundle();
+						parametros.putString("remision", edtRemision.getText().toString());
+						parametros.putString("idpedido", bundle.getString("idpedido"));
+						parametros.putString("cantidad", bundle.getString("cantidad"));
+						parametros.putString("photopath", reducirImagen(prefs.getString("photopath", "")));					
+						parametros.putInt("tipo", tipo);
+						Log.i("Parametros",parametros.toString());
+						startService(new Intent(TakeImagenActivity.this,UpImageService.class).putExtras(parametros));
+						layoutPreview.setVisibility(View.GONE);
+						finish();
+					}
 				}
 				
 			}
@@ -136,6 +154,23 @@ public class TakeImagenActivity extends FragmentActivity {
 			}
 		});
 	}
+
+	@SuppressLint("ValidFragment") ////dialogo para confirmar la salidad de la app///////////////////////////////
+	private class DialogoRemision extends DialogFragment{//////////////////////////////////////////////////////
+		 @Override
+			public Dialog onCreateDialog(Bundle savedInstanceState) {
+				AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
+				builder.setMessage("Salir")
+					   .setTitle("Salir de la Aplicacion")
+					   .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.cancel();
+						}
+					 });
+				return builder.create();
+			}
+	 }
 
 	
 	@Override///Retorno
@@ -198,7 +233,7 @@ public class TakeImagenActivity extends FragmentActivity {
 	}
 	
 	private String reducirImagen(String fichero){
-		File folder=new File(Environment.getExternalStorageDirectory()+"/DCIM/imlinea/send/");
+		File folder=new File(Environment.getExternalStorageDirectory()+"/DCIM/construar/send/");
 		if(!folder.exists()){
 			folder.mkdirs();
 		}

@@ -50,6 +50,7 @@ public class VistaPrincipalActivity extends FragmentActivity {
     @SuppressWarnings("deprecation")
     private void EnableJavaScript(){
         webView.addJavascriptInterface(new WebAppInterface(this), "Android");//Interface Captura
+        webView.addJavascriptInterface(new WebAppInterface(this), "take");
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
         webView.setScrollbarFadingEnabled(false);
 
@@ -118,8 +119,13 @@ public class VistaPrincipalActivity extends FragmentActivity {
         }
 
         @JavascriptInterface
-        public void showToast(String nick) {
-          startActivity(new Intent(getApplicationContext(),TakeImagenActivity.class));
+        public void showToast(String idpedido,String cantidad) {
+            Bundle bundle=new Bundle();
+            bundle.putString("idpedido", idpedido);
+            bundle.putString("cantidad", cantidad);
+            Intent intent=new Intent(VistaPrincipalActivity.this,TakeImagenActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
     }
 

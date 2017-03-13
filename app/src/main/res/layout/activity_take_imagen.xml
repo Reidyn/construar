@@ -8,22 +8,70 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Campturar Imagen"
+        android:text="Capturar"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:background="#164923" 
         android:textColor="#FFFFFF"
         android:gravity="center_horizontal"
         android:padding="20dp"
         android:layout_marginBottom="20dp"/>
-
+    
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp" >
-
+        android:layout_height="wrap_content">
+        
+        <TextView
+            android:id="@+id/lblRemision"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nro. Remisión: " />
+        
+        <EditText
+            android:id="@+id/edtRemision"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:padding="15dp"            
+            android:inputType="number" 
+            android:focusable="true">
+        </EditText>                   
+    </LinearLayout>    
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">        
+        
+        <TextView
+            android:id="@+id/lblCantidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cantidad: " />
+        
+        <EditText
+            android:id="@+id/edtCantidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:padding="15dp"            
+            android:inputType="number" 
+            android:focusable="true">
+        </EditText>  
+                
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <TextView
+            android:id="@+id/lblImagen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clic en la imagen para adjuntar fotos: " />        
+                
         <ImageButton
             android:id="@+id/imgbtnCapturar"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@mipmap/appicon"
@@ -35,7 +83,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@mipmap/folder"
-            android:background="#FAFAFA" />
+            android:background="#FAFAFA"
+            android:visibility="gone" />
     </LinearLayout>
     
      <LinearLayout

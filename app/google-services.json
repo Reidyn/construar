@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "356347657027",
+    "firebase_url": "https://construar-7b6ff.firebaseio.com",
+    "project_id": "construar-7b6ff",
+    "storage_bucket": "construar-7b6ff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:356347657027:android:b8a217fbd24f252d",
+        "android_client_info": {
+          "package_name": "com.reidyn.innovandoapps.construccion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "356347657027-httrj5gn3kttoi90fh3o51gmhg670trt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reidyn.innovandoapps.construccion",
+            "certificate_hash": "f3fa8bc86a6386429a1c7c99466a23958c883a02"
+          }
+        },
+        {
+          "client_id": "356347657027-3m5nnup8qf7s0kq6mo6se39i7c4tnm70.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGHR3WaRuqae_vGZhnpyFn0uNQuDy0N9o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "356347657027-3m5nnup8qf7s0kq6mo6se39i7c4tnm70.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
