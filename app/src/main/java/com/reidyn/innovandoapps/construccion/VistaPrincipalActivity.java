@@ -18,6 +18,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.reidyn.innovandoapps.construccion.Utils.HttpVolleyRequest;
+import com.reidyn.innovandoapps.construccion.Utils.PreferencesManager;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by windows 8.1 on 24/01/2017.
  */
@@ -27,8 +34,10 @@ public class VistaPrincipalActivity extends FragmentActivity {
     private WebView webView;
     private ProgressBar progresbar;
     private String urlload="";
+    private PreferencesManager preferencesManager;
 
     private final String URL = "http://www.mobiup.com:5600/construar/accesochat.php";
+    private final String URL_REGISTER_TOKEN = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +46,7 @@ public class VistaPrincipalActivity extends FragmentActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_vista_principal);
 
+        preferencesManager = PreferencesManager.getInstance(getApplicationContext());
         progresbar=(ProgressBar)findViewById(R.id.progressbar);
         webView=(WebView)findViewById(R.id.webconstruar);
 
@@ -51,6 +61,7 @@ public class VistaPrincipalActivity extends FragmentActivity {
     private void EnableJavaScript(){
         webView.addJavascriptInterface(new WebAppInterface(this), "Android");//Interface Captura
         webView.addJavascriptInterface(new WebAppInterface(this), "take");
+        webView.addJavascriptInterface(new WebAppInterface(this), "showAndroidUser");
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
         webView.setScrollbarFadingEnabled(false);
 
@@ -126,6 +137,17 @@ public class VistaPrincipalActivity extends FragmentActivity {
             Intent intent=new Intent(VistaPrincipalActivity.this,TakeImagenActivity.class);
             intent.putExtras(bundle);
             startActivity(intent);
+        }
+
+        @JavascriptInterface
+        public void showAndroidUser(String user) {
+            Log.i("Usuario",user);
+            String token = FirebaseInstanceId.getInstance().getToken();
+            preferencesManager.setTokenFirebase(token);
+            Map<String, String> parametros = new HashMap<>();
+            parametros.put("usuario", user);
+            parametros.put("firebasetoken", token);
+            HttpVolleyRequest.getInstance(context).registrarTokenPush(URL_REGISTER_TOKEN,parametros);
         }
     }
 
